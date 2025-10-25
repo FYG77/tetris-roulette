@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+  mongo:
+    image: mongo:6
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: tetris
+    ports:
+      - "27017:27017"
+  api:
+    build:
+      context: ../api
+    command: uvicorn app.main:socket_app --host 0.0.0.0 --port 8000
+    env_file:
+      - ../../.env.example
+    depends_on:
+      - mongo
+    ports:
+      - "8000:8000"
+  web:
+    build:
+      context: ../web
+    command: npm run dev -- --host 0.0.0.0 --port 5173
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: https://localhost:8000
+    depends_on:
+      - api
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - web

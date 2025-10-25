@@ -1,0 +1,31 @@
+[project]
+name = "tetris-roulette-api"
+version = "0.1.0"
+description = "Server for Tetris Game Roulette"
+requires-python = ">=3.11"
+authors = [{name = "Tetris Roulette"}]
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "python-dotenv",
+    "pydantic>=2.5",
+    "beanie>=1.23",
+    "motor>=3.3",
+    "python-socketio[asgi]>=5.8",
+    "itsdangerous>=2.1",
+    "python-jose[cryptography]>=3.3",
+    "httpx",
+    "stripe>=6.0",
+    "tenacity",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "httpx",
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
